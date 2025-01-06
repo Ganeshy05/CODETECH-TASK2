@@ -1,0 +1,66 @@
+-- Create Departments table
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(100)
+);
+
+-- Create Job Positions table
+CREATE TABLE JobPositions (
+    JobID INT PRIMARY KEY,
+    JobTitle VARCHAR(100),
+    JobDescription TEXT
+);
+
+-- Create Employees table
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    DateOfBirth DATE,
+    Address VARCHAR(255),
+    Phone VARCHAR(15),
+    Email VARCHAR(100),
+    DepartmentID INT,
+    JobID INT,
+    Salary DECIMAL(10, 2),
+    HireDate DATE,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID),
+    FOREIGN KEY (JobID) REFERENCES JobPositions(JobID)
+);
+
+-- Insert data into Departments table
+INSERT INTO Departments (DepartmentID, DepartmentName)
+VALUES (1, 'Human Resources'), (2, 'Engineering'), (3, 'Marketing');
+
+-- Insert data into Job Positions table
+INSERT INTO JobPositions (JobID, JobTitle, JobDescription)
+VALUES (1, 'Software Engineer', 'Develops and maintains software applications'),
+       (2, 'HR Manager', 'Manages HR functions'),
+       (3, 'Marketing Specialist', 'Creates marketing campaigns');
+
+-- Insert data into Employees table
+INSERT INTO Employees (EmployeeID, FirstName, LastName, DateOfBirth, Address, Phone, Email, DepartmentID, JobID, Salary, HireDate)
+VALUES (1, 'Alice', 'Smith', '1990-05-15', '456 Elm St', '555-5678', 'alice.smith@example.com', 2, 1, 75000.00, '2022-04-01');
+
+-- Update data in Employees table
+UPDATE Employees
+SET Salary = 80000.00
+WHERE EmployeeID = 1;
+
+-- Delete data from Employees table
+DELETE FROM Employees
+WHERE EmployeeID = 1;
+
+-- Retrieve all employees
+SELECT * FROM Employees;
+
+-- Retrieve all employees in a specific department
+SELECT * FROM Employees
+WHERE DepartmentID = 2;
+
+-- Retrieve the department and job position of a specific employee
+SELECT e.FirstName, e.LastName, d.DepartmentName, j.JobTitle
+FROM Employees e
+JOIN Departments d ON e.DepartmentID = d.DepartmentID
+JOIN JobPositions j ON e.JobID = j.JobID
+WHERE e.EmployeeID = 1;
